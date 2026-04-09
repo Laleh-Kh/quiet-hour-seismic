@@ -2,8 +2,6 @@
 
 Select the quietest time window in continuous passive seismic data using a sliding standard deviation (STD) method.
 
----
-
 ## Overview
 
 This script identifies the most stable (lowest-noise) time window within a continuous 24-hour seismic record.
@@ -12,16 +10,12 @@ A fixed-length window (default: 1 hour) is moved across the data, and the standa
 
 This workflow was developed for preprocessing ambient seismic data (e.g., HVSR), but is general and can be applied to any continuous seismic dataset.
 
----
-
 ## Method
 
 - Slide a fixed window across the record  
 - Compute STD for each component  
 - Combine into a single noise metric  
 - Select the window with minimum noise  
-
----
 
 ## Usage
 
