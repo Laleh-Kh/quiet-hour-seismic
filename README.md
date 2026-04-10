@@ -46,6 +46,3 @@ CONFIG = Config(
 - Components must end with Z, N, and E
 - Default window length is 1 hour
 - Partial windows at the end of each day are excluded
-## Acknowledgements
-
-Parts of the code were developed with assistance from AI-based coding tools and were reviewed, adapted, and validated by the author.
