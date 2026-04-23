@@ -2,7 +2,7 @@
 
 This repository contains a simple Python script for selecting the quietest one-hour window from three-component seismic waveform data.
 
-The current version reads three built-in ObsPy example waveform files, computes the standard deviation for the `Z`, `N`, and `E` components in sliding windows, sums those values to form `std_sum`, and then applies a rolling sum to identify the quiet hour. If next-day data are available, the script uses the first hour of the following day when computing the final 23:00-24:00 window.
+The current version reads three built-in ObsPy example waveform files, computes the standard deviation for the `Z`, `N`, and `E` components in sliding windows, sums those values to form `std_sum`, and then applies a rolling sum to identify the quiet hour. That minimum marks the end index of the selected hour. If next-day data are available, the script uses the first hour of the following day when computing the final 23:00-24:00 window.
 
 ## Method
 
