@@ -1,0 +1,2 @@
+quiet_hour_start,quiet_hour_end,std_sum_at_start,minimum_smoothed_std_sum,used_next_day_data
+2009-02-19 17:06:00.025100,2009-02-19 18:06:00.025100,559.2998910107337,33038.17871014303,False
