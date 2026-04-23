@@ -1,48 +1,44 @@
-# quiet-hour-seismic
+# Quiet Hour Selection
 
-Select the quietest time window in continuous passive seismic data using a sliding standard deviation (STD) method.
+This repository contains a simple Python script for selecting the quietest one-hour window from three-component seismic waveform data.
 
-## Overview
-
-This script identifies the most stable (lowest-noise) time window within a continuous 24-hour seismic record.
-
-A fixed-length window (default: 1 hour) is moved across the data, and the standard deviation of the three components is computed. The window with the minimum combined STD is selected as the quietest interval. Only windows fully contained within each record are evaluated, so up to one window length at the end may be excluded.
-
-This workflow was developed for preprocessing ambient seismic data (e.g., HVSR), but is general and can be applied to any continuous seismic dataset.
+The current version reads three built-in ObsPy example waveform files, computes the standard deviation for the `Z`, `N`, and `E` components in sliding windows, sums those values to form `std_sum`, and then applies a rolling sum to identify the quiet hour. If next-day data are available, the script uses the first hour of the following day when computing the final 23:00-24:00 window.
 
 ## Method
 
-- Slide a fixed window across the record  
-- Compute STD for each component  
-- Combine into a single noise metric  
-- Select the window with minimum noise  
+1. Compute `STD_Z`, `STD_N`, and `STD_E` for each candidate window.
+2. Compute `STD_SUM = STD_Z + STD_N + STD_E`.
+3. Compute a rolling sum of `STD_SUM`.
+4. Select the quiet hour from the minimum of that rolling-sum curve.
 
-## Usage
+## Plot
 
-Edit the `CONFIG` block in `select_quiet_hour.py`:
+The output figure has two panels:
 
-```python
-CONFIG = Config(
-    base_data_dir="PATH_TO_DATA",
-    base_output_dir="PATH_TO_OUTPUT",
-    stations=["STATION_NAME"],
-    months=["MONTH_NAME"],
-    components=["Z", "N", "E"],
-    file_pattern="{station}_{component}_{date}.sac",
-)
+- top: `Z`, `N`, `E`, and `Total STD`
+- bottom: the rolling-sum selection metric
+
+The selected quiet hour is highlighted on the lower panel because that is the metric used for the final selection.
+
+## Requirements
+
+- Python
+- `numpy`
+- `pandas`
+- `matplotlib`
+- `obspy`
+
+## Run
+
+```bash
+python select-quiet-hour.py
 ```
-  
-# Run
-   `python select_quiet_hour.py`
-## Inputs
-- Continuous 3-component passive seismic data
-- One file per component per day
-- User-defined file naming pattern
-## Outputs
-- Per-window STD CSV files
-- Summary CSV files (quiet window start/end times)
-- QC plots (STD, time series, spectrograms)
-## Notes
-- Components must end with Z, N, and E
-- Default window length is 1 hour
-- Partial windows at the end of each day are excluded
+
+## Output
+
+Running the script creates a `quiet_hour_output` folder next to the script and writes:
+
+- `quiet_hour_selection.csv`
+- `quiet_hour_metrics.csv`
+- `quiet_hour_metrics.png`
+- `quiet_hour_metrics.pdf`
